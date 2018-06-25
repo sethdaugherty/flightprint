@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
+import { connect } from 'react-redux'
 import {compose, withProps} from "recompose";
+import C from './constants';
 import {
     withScriptjs,
     withGoogleMap,
@@ -76,6 +78,15 @@ const AIRPORT_COORDINATES = {
     }
 }
 
+/*
+const App2 = () => {
+    <div className="App">
+        <Map flights={flights} />
+        <FlightList flightList={flights} onClickRemoveFlight={this.onClickRemoveFlight}></FlightList>
+        <ManageFlightsForm onSubmit={this.onAddSubmit}></ManageFlightsForm>
+    </div>
+}*/
+
 class App extends Component {
     constructor() {
         super();
@@ -116,7 +127,7 @@ class App extends Component {
             <div className="App">
                 <Map flights={flights} />
                 <FlightList flightList={flights} onClickRemoveFlight={this.onClickRemoveFlight}></FlightList>
-                <ManageFlightsForm onSubmit={this.onAddSubmit}></ManageFlightsForm>
+                <ManageFlights />
             </div>
         );
     }
@@ -155,23 +166,42 @@ class App extends Component {
         })
     }
 }
+const ManageFlightsForm = ( {stuff, onAdd} ) => {
 
-class ManageFlightsForm extends Component {
-    constructor() {
-        super();
-    }
-
-    render() {
-        const {onSubmit} = this.props;
-        return (
-            <form onSubmit={(event) => {onSubmit(event, this.refs._from.value, this.refs._to.value)}} >
-                From: <input type="text" ref="_from"></input>
-                To: <input type="text" ref="_to"></input>
-                <button>Add</button>
-            </form>
-        )
-    }
+    let from = null
+    let to = null
+console.log("onAdd was ", onAdd)
+    return (
+        <form onSubmit={(event) => {
+            event.preventDefault()
+            onAdd(event, from.value, to.value)
+        }}>
+            From: <input type="text" ref={(input) => {from = input;}}></input>
+            To: <input type="text" ref={(input) => {to = input;}}></input>
+            <button>Add</button>
+        </form>
+    )
 }
+
+// Container for the Manage flights form
+export const ManageFlights = connect(
+    state => ({
+        'blah': 'blaaa'
+    }),
+    dispatch => ({
+        onAdd(event, from, to) {
+            event.preventDefault()
+            console.log("dispateched", from, to)
+
+            dispatch({
+                type: C.ADD_ROUTE,
+                fromAirport: from,
+                toAirport: to
+            })
+        }
+
+    })
+)(ManageFlightsForm)
 
 
 const FlightList = ({flightList, onClickRemoveFlight}) =>

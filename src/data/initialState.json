@@ -1,0 +1,22 @@
+{
+  "flights": [
+    {"from": "DEN", "to": "ATL", "id": "11da6179-71c5-400e-84d4-f64ae0702dd9"},
+    {"from": "ATL", "to": "MCO", "id": "172d2495-9e7c-4643-b33c-797a34bae4e6"},
+    {"from": "MCO", "to": "ATL", "id": "9a13972c-b7a5-4f41-a15b-a3e92e490d28"},
+    {"from": "ATL", "to": "DEN", "id": "312581b9-c98d-4ac4-8557-e63210bb2f58"},
+    {"from": "DEN", "to": "SEA", "id": "0ca1b67a-358d-43e6-aca3-a1f0e518170d"},
+    {"from": "SEA", "to": "DEN", "id": "d4824963-6448-4d2f-84b3-2b259448ea97"},
+    {"from": "SEA", "to": "DEN", "id": "5c6f23bb-8e57-4dd4-8328-51dc7d2848a9"},
+    {"from": "DEN", "to": "SEA", "id": "7c81b99a-5b1a-4325-ad74-fca7169fe5ce"},
+    {"from": "SEA", "to": "PHX", "id": "42557a64-8aff-4803-b5e5-0fd7a057908d"},
+    {"from": "PHX", "to": "SEA", "id": "83b87c65-14b8-44aa-aded-d1c3be85e23f"},
+    {"from": "SEA", "to": "DEN", "id": "f180f416-4926-4752-9ba3-6e625fe71fb2"},
+    {"from": "DEN", "to": "SEA", "id": "ed7dc29b-fc62-4538-99ae-f35089107fe8"},
+    {"from": "SEA", "to": "YYZ", "id": "1240e2a4-393d-4b6f-af77-512d90582359"},
+    {"from": "YYZ", "to": "SPJC", "id": "236b223c-ab66-4eb0-9d7b-3f556a9e0fd9"},
+    {"from": "SPJC", "to": "CUZ", "id": "c3229ea0-baca-4964-a8f4-40451abe3fe4"},
+    {"from": "CUZ", "to": "SPJC", "id": "8912b408-8116-4368-b121-c6913dd4c99e"},
+    {"from": "SPJC", "to": "MIA", "id": "9646c88e-662e-47d6-9953-0aa93f35e90b"},
+    {"from": "MIA", "to": "SEA", "id": "e20c0c63-eefb-4ed8-ba65-4b69ef89d5fc"}
+  ]
+}

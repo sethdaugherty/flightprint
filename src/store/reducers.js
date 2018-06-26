@@ -55,11 +55,17 @@ export const sort = (state = "SORTED_BY_DATE", action) => {
 export const routes = (state, action) => {
     switch (action.type) {
         case 'ADD_ROUTE':
-            return {
-                fromAirport: action.fromAirport,
-                toAirport: action.toAirport,
-                id: v4()
-            }
+            return [...state,
+                {
+                    fromAirport: action.fromAirport,
+                    toAirport: action.toAirport,
+                    id: v4()
+                }
+            ]
+        case 'REMOVE_ROUTE':
+            return state.filter(
+                route => route.id !== action.id
+            );
         default :
             return state ? state : {}
     }

@@ -3,6 +3,7 @@ import './App.css';
 import { connect } from 'react-redux'
 import {compose, withProps} from "recompose";
 import C from './constants';
+import { removeRoute } from './actions';
 import {
     withScriptjs,
     withGoogleMap,
@@ -78,55 +79,21 @@ const AIRPORT_COORDINATES = {
     }
 }
 
-/*
-const App2 = () => {
-    <div className="App">
-        <Map flights={flights} />
-        <FlightList flightList={flights} onClickRemoveFlight={this.onClickRemoveFlight}></FlightList>
-        <ManageFlightsForm onSubmit={this.onAddSubmit}></ManageFlightsForm>
-    </div>
-}*/
-
 class App extends Component {
     constructor() {
         super();
-
-        this.state = {
-            'flights': [
-                {'from': 'DEN', 'to': 'ATL', 'id': guid()},
-                {'from': 'ATL', 'to': 'MCO', 'id': guid()},
-                {'from': 'MCO', 'to': 'ATL', 'id': guid()},
-                {'from': 'ATL', 'to': 'DEN', 'id': guid()},
-                {'from': 'DEN', 'to': 'SEA', 'id': guid()},
-                {'from': 'SEA', 'to': 'DEN', 'id': guid()},
-                {'from': 'SEA', 'to': 'DEN', 'id': guid()},
-                {'from': 'DEN', 'to': 'SEA', 'id': guid()},
-                {'from': 'SEA', 'to': 'PHX', 'id': guid()},
-                {'from': 'PHX', 'to': 'SEA', 'id': guid()},
-                {'from': 'SEA', 'to': 'DEN', 'id': guid()},
-                {'from': 'DEN', 'to': 'SEA', 'id': guid()},
-                {'from': 'SEA', 'to': 'YYZ', 'id': guid()},
-                {'from': 'YYZ', 'to': 'SPJC', 'id': guid()},
-                {'from': 'SPJC', 'to': 'CUZ', 'id': guid()},
-                {'from': 'CUZ', 'to': 'SPJC', 'id': guid()},
-                {'from': 'SPJC', 'to': 'MIA', 'id': guid()},
-                {'from': 'MIA', 'to': 'SEA', 'id': guid()},
-
-            ]
-        };
 
         this.onAddSubmit = this.onAddSubmit.bind(this);
         this.onClickRemoveFlight = this.onClickRemoveFlight.bind(this);
     }
 
     render() {
-        const {flights} = this.state;
         //const linePath = [{lat: -34.397, lng: 150.644}, {lat: 0, lng: 0}];
 
         return (
             <div className="App">
-                <Map flights={flights} />
-                <FlightList flightList={flights} onClickRemoveFlight={this.onClickRemoveFlight}></FlightList>
+                <FlightMap />
+                <FlightList />
                 <ManageFlights />
             </div>
         );
@@ -204,24 +171,35 @@ export const ManageFlights = connect(
 )(ManageFlightsForm)
 
 
-const FlightList = ({flightList, onClickRemoveFlight}) =>
+const List = ({routes=[], onRemove=f=>f}) =>
     <div className="flightList">
         <h2>List of flights</h2>
         <ul>
-            {flightList.map((flight, i) =>
-                <span key={i}><Flight {...flight} onClick={(event) => {onClickRemoveFlight(event, flight.id)}} key={i}></Flight></span>
+            {routes.map((flight, i) =>
+                <span key={i}><Flight {...flight} onClick={(event) => {onRemove(flight.id)}} key={i}></Flight></span>
             )}
         </ul>
     </div>
 
-const Flight = ({ from, to, id, onClick }) =>
+const FlightList = connect(
+    state => ({
+        routes: state.routes
+    }),
+    dispatch => ({
+        onRemove(id) {
+            dispatch(removeRoute(id))
+        }
+    })
+)(List);
+
+const Flight = ({ fromAirport, toAirport, id, onClick }) =>
     <li>
-        {from} -> {to}
+        {fromAirport} -> {toAirport}
         &nbsp;
         <button onClick={() => onClick(id) }>X</button>
     </li>
 
-const FlightPaths = ({flights}) => {
+const FlightPaths = ({flights = []}) => {
 
     const flightPaths = flights.map((flight) =>
         [
@@ -270,5 +248,22 @@ const Map = compose(
         );
 })
 ;
+
+const FlightMap = connect(
+    state => {},
+    dispatch => ({
+        onAdd(event, from, to) {
+            event.preventDefault()
+            console.log("dispateched", from, to)
+
+            dispatch({
+                type: C.ADD_ROUTE,
+                fromAirport: from,
+                toAirport: to
+            })
+        }
+
+    })
+)(Map);
 
 export default App;

@@ -200,11 +200,11 @@ const Flight = ({ fromAirport, toAirport, id, onClick }) =>
     </li>
 
 const FlightPaths = ({flights = []}) => {
-
+    console.log("mapping flights", flights);
     const flightPaths = flights.map((flight) =>
         [
-            {...AIRPORT_COORDINATES[flight.from]},
-            {...AIRPORT_COORDINATES[flight.to]}
+            {...AIRPORT_COORDINATES[flight.fromAirport]},
+            {...AIRPORT_COORDINATES[flight.toAirport]}
         ]
     );
 
@@ -240,29 +240,20 @@ const Map = compose(
     }),
     withScriptjs,
     withGoogleMap
-)(props => {
+)(({ flights }) => {
         return (
             <GoogleMap defaultZoom={4} defaultCenter={{lat: 39.861698150635, lng: -104.672996521}}>
-                <FlightPaths flights={props.flights} />
+                <FlightPaths flights={flights} />
             </GoogleMap>
         );
 })
 ;
 
 const FlightMap = connect(
-    state => {},
+    state => ({
+        flights: state.routes
+    }),
     dispatch => ({
-        onAdd(event, from, to) {
-            event.preventDefault()
-            console.log("dispateched", from, to)
-
-            dispatch({
-                type: C.ADD_ROUTE,
-                fromAirport: from,
-                toAirport: to
-            })
-        }
-
     })
 )(Map);
 

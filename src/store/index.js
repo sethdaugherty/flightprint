@@ -1,5 +1,5 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { routes, sort } from './reducers'
+import {applyMiddleware, combineReducers, createStore} from 'redux'
+import {routes, sort} from './reducers'
 import stateData from '../data/initialState'
 
 const logger = store => next => action => {

@@ -5,7 +5,6 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import {Provider} from 'react-redux'
 import storeFactory from './store'
-import {v4} from 'uuid'
 
 const store = storeFactory()
 

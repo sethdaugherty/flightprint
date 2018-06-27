@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
 import FlightList from './component/containers/FlightList'
 import FlightMap from './component/containers/FlightMap'

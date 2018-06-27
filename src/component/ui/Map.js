@@ -14,7 +14,6 @@ const Map = compose(
     withScriptjs,
     withGoogleMap
     )(({ flightPaths }) => {
-        console.log("flightpath", flightPaths)
         return (
             <GoogleMap defaultZoom={4} defaultCenter={{lat: 39.861698150635, lng: -104.672996521}}>
                 <FlightPaths flightPaths={flightPaths} />

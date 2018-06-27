@@ -16,6 +16,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "./node_modules/.bin/eslint ."
+  },
+  "devDependencies": {
+    "ajv": "^6.5.1",
+    "eslint": "^5.0.1",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-react": "^7.10.0"
   }
 }

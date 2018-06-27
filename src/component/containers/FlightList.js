@@ -1,16 +1,16 @@
-import {removeRoute} from "../../actions";
-import {connect} from "react-redux";
-import FlightUl from "../ui/FlightUl"
+import { removeRoute } from '../../actions'
+import { connect } from 'react-redux'
+import FlightUl from '../ui/FlightUl'
 
 const FlightList = connect(
-    state => ({
-        routes: state.routes
-    }),
-    dispatch => ({
-        onRemove(id) {
+    state => ( {
+        routes: state.routes,
+    } ),
+    dispatch => ( {
+        onRemove( id ) {
             dispatch(removeRoute(id))
-        }
-    })
-)(FlightUl);
+        },
+    } ),
+)(FlightUl)
 
 export default FlightList

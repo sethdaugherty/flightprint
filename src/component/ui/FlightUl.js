@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import FlightLi from './FlightLi'
 
 const FlightUl = ({routes=[], onRemove=f=>f}) =>
@@ -6,7 +6,7 @@ const FlightUl = ({routes=[], onRemove=f=>f}) =>
         <h2>List of flights</h2>
         <ul>
             {routes.map((flight, i) =>
-                <span key={i}><FlightLi {...flight} onClick={(event) => {onRemove(flight.id)}} key={i}></FlightLi></span>
+                <span key={i}><FlightLi {...flight} onClick={() => {onRemove(flight.id)}} key={i}></FlightLi></span>
             )}
         </ul>
     </div>

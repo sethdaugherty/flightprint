@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import FlightPath from './FlightPath'
 
 const FlightPaths = ({flightPaths = []}) => {

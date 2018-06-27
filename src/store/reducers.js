@@ -1,5 +1,5 @@
 import C from '../constants'
-import {v4} from 'uuid';
+import {v4} from 'uuid'
 
 export const color = (state = {}, action) => {
     switch (action.type) {
@@ -43,9 +43,9 @@ export const colors = (state = [], action) => {
     }
 }
 
-export const sort = (state = "SORTED_BY_DATE", action) => {
+export const sort = (state = 'SORTED_BY_DATE', action) => {
     switch (action.type) {
-        case "SORT_COLORS":
+        case 'SORT_COLORS':
             return action.sortBy
         default :
             return state
@@ -65,7 +65,7 @@ export const routes = (state, action) => {
         case 'REMOVE_ROUTE':
             return state.filter(
                 route => route.id !== action.id
-            );
+            )
         default :
             return state ? state : {}
     }

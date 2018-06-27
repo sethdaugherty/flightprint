@@ -1,8 +1,9 @@
 import { routes } from '../../../store/reducers'
+import { it, describe, expect } from 'jest'
 import C from '../../../constants'
 
 describe('routes reducer', () => {
-    it("ADD_ROUTE success", () => {
+    it('ADD_ROUTE success', () => {
         const state = []
 
         const action = {
@@ -22,17 +23,17 @@ describe('routes reducer', () => {
             } ])
     })
 
-    it("REMOVE_ROUTE success", () => {
+    it('REMOVE_ROUTE success', () => {
         const state = [ {
             id: 1234,
             fromAirport: 'PDX',
             toAirport: 'SEA',
         },
-            {
-                id: 5678,
-                fromAirport: 'SEA',
-                toAirport: 'DEN',
-            } ]
+        {
+            id: 5678,
+            fromAirport: 'SEA',
+            toAirport: 'DEN',
+        } ]
 
         const action = {
             type: C.REMOVE_ROUTE,

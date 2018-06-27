@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import './App.css';
+import { connect } from 'react-redux'
 import {compose, withProps} from "recompose";
+import C from './constants';
+import { removeRoute } from './actions';
 import {
     withScriptjs,
     withGoogleMap,
@@ -80,43 +83,18 @@ class App extends Component {
     constructor() {
         super();
 
-        this.state = {
-            'flights': [
-                {'from': 'DEN', 'to': 'ATL', 'id': guid()},
-                {'from': 'ATL', 'to': 'MCO', 'id': guid()},
-                {'from': 'MCO', 'to': 'ATL', 'id': guid()},
-                {'from': 'ATL', 'to': 'DEN', 'id': guid()},
-                {'from': 'DEN', 'to': 'SEA', 'id': guid()},
-                {'from': 'SEA', 'to': 'DEN', 'id': guid()},
-                {'from': 'SEA', 'to': 'DEN', 'id': guid()},
-                {'from': 'DEN', 'to': 'SEA', 'id': guid()},
-                {'from': 'SEA', 'to': 'PHX', 'id': guid()},
-                {'from': 'PHX', 'to': 'SEA', 'id': guid()},
-                {'from': 'SEA', 'to': 'DEN', 'id': guid()},
-                {'from': 'DEN', 'to': 'SEA', 'id': guid()},
-                {'from': 'SEA', 'to': 'YYZ', 'id': guid()},
-                {'from': 'YYZ', 'to': 'SPJC', 'id': guid()},
-                {'from': 'SPJC', 'to': 'CUZ', 'id': guid()},
-                {'from': 'CUZ', 'to': 'SPJC', 'id': guid()},
-                {'from': 'SPJC', 'to': 'MIA', 'id': guid()},
-                {'from': 'MIA', 'to': 'SEA', 'id': guid()},
-
-            ]
-        };
-
         this.onAddSubmit = this.onAddSubmit.bind(this);
         this.onClickRemoveFlight = this.onClickRemoveFlight.bind(this);
     }
 
     render() {
-        const {flights} = this.state;
         //const linePath = [{lat: -34.397, lng: 150.644}, {lat: 0, lng: 0}];
 
         return (
             <div className="App">
-                <Map flights={flights} />
-                <FlightList flightList={flights} onClickRemoveFlight={this.onClickRemoveFlight}></FlightList>
-                <ManageFlightsForm onSubmit={this.onAddSubmit}></ManageFlightsForm>
+                <FlightMap />
+                <FlightList />
+                <ManageFlights />
             </div>
         );
     }
@@ -155,48 +133,78 @@ class App extends Component {
         })
     }
 }
+const ManageFlightsForm = ( {stuff, onAdd} ) => {
 
-class ManageFlightsForm extends Component {
-    constructor() {
-        super();
-    }
-
-    render() {
-        const {onSubmit} = this.props;
-        return (
-            <form onSubmit={(event) => {onSubmit(event, this.refs._from.value, this.refs._to.value)}} >
-                From: <input type="text" ref="_from"></input>
-                To: <input type="text" ref="_to"></input>
-                <button>Add</button>
-            </form>
-        )
-    }
+    let from = null
+    let to = null
+console.log("onAdd was ", onAdd)
+    return (
+        <form onSubmit={(event) => {
+            event.preventDefault()
+            onAdd(event, from.value, to.value)
+        }}>
+            From: <input type="text" ref={(input) => {from = input;}}></input>
+            To: <input type="text" ref={(input) => {to = input;}}></input>
+            <button>Add</button>
+        </form>
+    )
 }
 
+// Container for the Manage flights form
+export const ManageFlights = connect(
+    state => ({
+        'blah': 'blaaa'
+    }),
+    dispatch => ({
+        onAdd(event, from, to) {
+            event.preventDefault()
+            console.log("dispateched", from, to)
 
-const FlightList = ({flightList, onClickRemoveFlight}) =>
+            dispatch({
+                type: C.ADD_ROUTE,
+                fromAirport: from,
+                toAirport: to
+            })
+        }
+
+    })
+)(ManageFlightsForm)
+
+
+const List = ({routes=[], onRemove=f=>f}) =>
     <div className="flightList">
         <h2>List of flights</h2>
         <ul>
-            {flightList.map((flight, i) =>
-                <span key={i}><Flight {...flight} onClick={(event) => {onClickRemoveFlight(event, flight.id)}} key={i}></Flight></span>
+            {routes.map((flight, i) =>
+                <span key={i}><Flight {...flight} onClick={(event) => {onRemove(flight.id)}} key={i}></Flight></span>
             )}
         </ul>
     </div>
 
-const Flight = ({ from, to, id, onClick }) =>
+const FlightList = connect(
+    state => ({
+        routes: state.routes
+    }),
+    dispatch => ({
+        onRemove(id) {
+            dispatch(removeRoute(id))
+        }
+    })
+)(List);
+
+const Flight = ({ fromAirport, toAirport, id, onClick }) =>
     <li>
-        {from} -> {to}
+        {fromAirport} -> {toAirport}
         &nbsp;
         <button onClick={() => onClick(id) }>X</button>
     </li>
 
-const FlightPaths = ({flights}) => {
-
+const FlightPaths = ({flights = []}) => {
+    console.log("mapping flights", flights);
     const flightPaths = flights.map((flight) =>
         [
-            {...AIRPORT_COORDINATES[flight.from]},
-            {...AIRPORT_COORDINATES[flight.to]}
+            {...AIRPORT_COORDINATES[flight.fromAirport]},
+            {...AIRPORT_COORDINATES[flight.toAirport]}
         ]
     );
 
@@ -232,13 +240,21 @@ const Map = compose(
     }),
     withScriptjs,
     withGoogleMap
-)(props => {
+)(({ flights }) => {
         return (
             <GoogleMap defaultZoom={4} defaultCenter={{lat: 39.861698150635, lng: -104.672996521}}>
-                <FlightPaths flights={props.flights} />
+                <FlightPaths flights={flights} />
             </GoogleMap>
         );
 })
 ;
+
+const FlightMap = connect(
+    state => ({
+        flights: state.routes
+    }),
+    dispatch => ({
+    })
+)(Map);
 
 export default App;

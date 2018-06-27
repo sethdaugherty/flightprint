@@ -1,5 +1,5 @@
 import C from '../constants'
-import { v4 } from 'uuid';
+import {v4} from 'uuid';
 
 export const color = (state = {}, action) => {
     switch (action.type) {

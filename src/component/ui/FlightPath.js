@@ -1,5 +1,5 @@
 import React from 'react';
-import { Polyline } from "react-google-maps";
+import {Polyline} from "react-google-maps";
 
 const FlightPath = ({flightPath}) => {
     const lineOptions = {

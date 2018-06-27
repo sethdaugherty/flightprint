@@ -1,11 +1,6 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {compose, withProps} from "recompose";
-import {
-    withScriptjs,
-    withGoogleMap,
-    GoogleMap,
-    Polyline
-} from "react-google-maps";
+import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import FlightPaths from './FlightPaths'
 
 const Map = compose(

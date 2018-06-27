@@ -1,4 +1,3 @@
-import React from 'react';
 import {removeRoute} from "../../actions";
 import {connect} from "react-redux";
 import FlightUl from "../ui/FlightUl"

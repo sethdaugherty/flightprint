@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux'
-import {routes, sort} from './reducers'
+import {routes} from './reducers'
 import stateData from '../data/initialState'
 
 const logger = store => next => action => {
@@ -22,7 +22,7 @@ const saver = store => next => action => {
 
 const storeFactory = (intialState=stateData) =>
     applyMiddleware(logger,saver)(createStore)(
-        combineReducers({routes, sort}),
+        combineReducers({routes}),
         (localStorage['redux-store-flights']) ?
             JSON.parse(localStorage['redux-store-flights']) :
             intialState

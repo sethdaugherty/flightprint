@@ -9,13 +9,13 @@ import ManageFlights from './component/containers/ManageFlights'
 // Convert to Typescript
 // Add styles
 // Read data from a server
+// Draw lines using SVG like: http://jsfiddle.net/bfer8e0b/630/    https://stackoverflow.com/questions/20321006/curved-line-between-two-near-points-in-google-maps
 
 
 const App = () =>
     <div className="App">
         <FlightMap />
-        <FlightList />
-        <ManageFlights />
+
     </div>
 
 export default App
